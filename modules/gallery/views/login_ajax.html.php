@@ -38,6 +38,12 @@
     });
   };
 </script>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+</head>
+<body>
 <div id="g-login">
   <ul>
     <li id="g-login-form">
@@ -49,4 +55,23 @@
     </li>
     <?php endif ?>
   </ul>
+  <hr>
+  gmail account: 
+  <br>
+  <?php
+      require_once 'vendor/autoload.php';
+
+      $client = new Google_Client();
+      $client->addScope(Google_Service_Oauth2::USERINFO_PROFILE);
+      $client->addScope(Google_Service_Oauth2::USERINFO_EMAIL);
+      $client->setAuthConfig('var/client_secret.json');
+			$authUrl = $client->createAuthUrl();
+      print('<a class="login" href="');
+      print($authUrl); 
+      print('"><img  height="60" background=#FF0 src="');
+      print(url::file("modules/gallery/images/google-login-button.png"));
+      print('" /></a>')
+      ?>
+ 
+		
 </div>
