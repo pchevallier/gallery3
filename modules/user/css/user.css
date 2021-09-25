@@ -5,7 +5,7 @@
 #g-edit-user-form,
 #g-delete-user-form,
 #g-user-admin {
-  width: 270px;
+  width: auto;
 }
 
 /* User/group admin ~~~~~~~~~~~~~~~~~~~~~~ */
