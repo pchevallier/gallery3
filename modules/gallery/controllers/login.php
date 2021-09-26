@@ -39,6 +39,11 @@ class Login_Controller extends Controller {
       $guser = $google_oauthV2->userinfo->get();
       module::event("gallery_ready");
       $user = identity::lookup_user_by_name($guser["givenName"]);
+      if ( !$user ){
+        Kohana_Log::add("debug","user ".$guser["givenName"]." doesn't exist");
+	      log::info("user", t("User %name not registered", array("name" => $guser["givenName"])));
+        $user = identity::guest();
+      }
       $form = auth::get_login_form("login/auth_html");
       auth::login($user);
       Session::instance()->regenerate();
