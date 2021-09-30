@@ -56,7 +56,7 @@ class gallery_block_Core {
       $block->title = t("Log entries");
       $block->content = new View("admin_block_log_entries.html");
       $block->content->entries = ORM::factory("log")
-        ->order_by(array("timestamp" => "DESC", "id" => "DESC"))->find_all(5);
+        ->order_by(array("timestamp" => "DESC", "id" => "DESC"))->find_all(25);
       break;
 
     case "stats":
