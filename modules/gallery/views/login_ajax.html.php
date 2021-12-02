@@ -45,6 +45,22 @@
 </head>
 <body>
 <div id="g-login">
+  <?php require_once 'vendor/autoload.php';
+    $secretfile = 'var/client_secret.json';
+    if (file_exists($secretfile)){
+      $client = new Google_Client();
+      $client->addScope(Google_Service_Oauth2::USERINFO_PROFILE);
+      $client->addScope(Google_Service_Oauth2::USERINFO_EMAIL);
+      $client->setAuthConfig($secretfile);
+			$authUrl = $client->createAuthUrl();
+      print('<a class="login" href="');
+      print($authUrl); 
+      print('"><center><img  height="60" background=#FF0  src="');
+      print(url::file("modules/gallery/images/google-login-button.png"));
+      print('" /></a></center>');
+    }
+  ?>
+  <hr>
   <ul>
     <li id="g-login-form">
       <?= $form ?>
@@ -55,23 +71,5 @@
     </li>
     <?php endif ?>
   </ul>
-  <hr>
-  gmail account: 
-  <br>
-  <?php
-      require_once 'vendor/autoload.php';
 
-      $client = new Google_Client();
-      $client->addScope(Google_Service_Oauth2::USERINFO_PROFILE);
-      $client->addScope(Google_Service_Oauth2::USERINFO_EMAIL);
-      $client->setAuthConfig('var/client_secret.json');
-			$authUrl = $client->createAuthUrl();
-      print('<a class="login" href="');
-      print($authUrl); 
-      print('"><img  height="60" background=#FF0 src="');
-      print(url::file("modules/gallery/images/google-login-button.png"));
-      print('" /></a>')
-      ?>
- 
-		
 </div>
