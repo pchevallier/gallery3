@@ -29,24 +29,26 @@ class Login_Controller extends Controller {
 
   public function auth_google() {
     require_once 'vendor/autoload.php';
-    Kohana_Log::add("debug","[login.php] auth_google");
-
     if (isset($_GET['code'])) {
       $client = new Google_Client();
       $client->addScope(Google_Service_Oauth2::USERINFO_PROFILE);
       $client->addScope(Google_Service_Oauth2::USERINFO_EMAIL);
-      $client->setAuthConfig('var/client_secret.json');
+      $client->setAuthConfig(VARPATH.'client_secret.json');
       $client->authenticate($_GET['code']);
       $google_oauthV2 = new Google_Service_Oauth2($client);
       $guser = $google_oauthV2->userinfo->get();
       module::event("gallery_ready");
       $user = identity::lookup_user_by_name($guser["givenName"]);
+      if ( !$user ){
+        Kohana_Log::add("debug","user ".$guser["givenName"]." doesn't exist");
+	      log::info("user", t("User %name not registered", array("name" => $guser["givenName"])));
+        $user = identity::guest();
+      }
       $form = auth::get_login_form("login/auth_html");
       auth::login($user);
       Session::instance()->regenerate();
       json::reply(array("result" => "success"));
       url::redirect(item::root()->abs_url());
-
     } else {
       $view = new View("login_ajax.html");
       $view->form = $form;

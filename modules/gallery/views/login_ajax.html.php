@@ -46,7 +46,7 @@
 <body>
 <div id="g-login">
   <?php require_once 'vendor/autoload.php';
-    $secretfile = 'var/client_secret.json';
+    $secretfile = VARPATH.'client_secret.json';
     if (file_exists($secretfile)){
       $client = new Google_Client();
       $client->addScope(Google_Service_Oauth2::USERINFO_PROFILE);
