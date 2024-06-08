@@ -54,7 +54,7 @@
       $client->setAuthConfig($secretfile);
       $authUrl = $client->createAuthUrl();
       print('<a class="login" href="');
-      print($authUrl); 
+      print($authUrl);
       print('"><center><img  height="60" background=#FF0  src="');
       print(url::file("modules/gallery/images/google-login-button.png"));
       print('" /></a></center>');

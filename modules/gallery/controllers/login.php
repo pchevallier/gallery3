@@ -41,7 +41,7 @@ class Login_Controller extends Controller {
       $user = identity::lookup_user_by_name($guser["givenName"]);
       if ( !$user ){
         Kohana_Log::add("debug","user ".$guser["givenName"]." doesn't exist");
-	      log::info("user", t("User %name not registered", array("name" => $guser["givenName"])));
+        log::info("user", t("User %name not registered", array("name" => $guser["givenName"])));
         $user = identity::guest();
       }
       $form = auth::get_login_form("login/auth_html");
@@ -52,7 +52,7 @@ class Login_Controller extends Controller {
     } else {
       $view = new View("login_ajax.html");
       $view->form = $form;
-      json::reply(array("result" => "error", "html" => (string)$view));      
+      json::reply(array("result" => "error", "html" => (string)$view));
     }
   }
 
