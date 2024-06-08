@@ -52,7 +52,7 @@
       $client->addScope(Google_Service_Oauth2::USERINFO_PROFILE);
       $client->addScope(Google_Service_Oauth2::USERINFO_EMAIL);
       $client->setAuthConfig($secretfile);
-			$authUrl = $client->createAuthUrl();
+      $authUrl = $client->createAuthUrl();
       print('<a class="login" href="');
       print($authUrl); 
       print('"><center><img  height="60" background=#FF0  src="');
