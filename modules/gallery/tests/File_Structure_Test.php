@@ -41,7 +41,7 @@ class File_Structure_Test extends Gallery_Unit_Test_Case {
 
   public function view_files_correct_suffix_test() {
     $dir = new GalleryCodeFilterIterator(
-      new RecursiveIteratorIterator(new RecursiveDirectoryIterator(DOCROOT)));
+      new RecursiveIteratorIterator(new RecursiveDirectoryIterator(MODPATH)));
     foreach ($dir as $file) {
       if (strpos($file, "views/kohana/error.php")) {
         continue;
