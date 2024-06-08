@@ -41,3 +41,4 @@ modules/tag/helpers/tag_rss.php                              feed               
 modules/user/controllers/admin_users.php                     index                DIRTY_CSRF
 modules/user/controllers/password.php                        reset                DIRTY_AUTH
 modules/user/controllers/password.php                        do_reset             DIRTY_CSRF|DIRTY_AUTH
+modules/gallery/controllers/login.php                        auth_google          DIRTY_AUTH
