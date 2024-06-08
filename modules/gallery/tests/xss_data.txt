@@ -213,7 +213,7 @@ modules/gallery/views/l10n_client.html.php                   58  DIRTY    form::
 modules/gallery/views/l10n_client.html.php                   62  DIRTY    form::textarea("l10n-edit-plural-translation-many","",' rows="2"')
 modules/gallery/views/l10n_client.html.php                   67  DIRTY    form::textarea("l10n-edit-plural-translation-other","",' rows="2"')
 modules/gallery/views/login_ajax.html.php                    6   DIRTY_JS url::site("password/reset")
-modules/gallery/views/login_ajax.html.php                    44  DIRTY    $form
+modules/gallery/views/login_ajax.html.php                    66  DIRTY    $form
 modules/gallery/views/menu.html.php                          4   DIRTY    $menu->css_id?"id='$menu->css_id'":""
 modules/gallery/views/menu.html.php                          4   DIRTY_ATTR $menu->css_class
 modules/gallery/views/menu.html.php                          6   DIRTY    $element->render()
