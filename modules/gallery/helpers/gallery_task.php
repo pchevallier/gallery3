@@ -757,7 +757,7 @@ class gallery_task_Core {
     } else {
       $task->percent_complete = round(100 * $completed / $total);
     }
-    $task->status = t2("One operation complete", "%count / %total operations complete", $completed,
+    $task->status = t2("One operation complete", "%count / %total operations and tasks complete", $completed,
                        array("total" => $total));
   }
 
