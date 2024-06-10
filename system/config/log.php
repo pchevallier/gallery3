@@ -22,7 +22,7 @@ $config['log_levels'] = array
 /**
  * See different log levels above
  */
-$config['log_threshold'] = 1;
+$config['log_threshold'] = 4;
 
 /**
  * Log Date format
