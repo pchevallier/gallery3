@@ -346,6 +346,8 @@ class gallery_task_Core {
     $start = microtime(true);
 
     $total = $task->get("total");
+    Kohana_Log::add('debug', 'fix total:'.$total);
+
     if (empty($total)) {
       $item_count = db::build()->count_records("items");
       $total = 0;
@@ -397,12 +399,14 @@ class gallery_task_Core {
     while ($state != self::FIX_STATE_DONE && microtime(true) - $start < 1.5) {
       switch ($state) {
       case self::FIX_STATE_START_MPTT:
+        Kohana_Log::add('debug', 'FIX_STATE_RUN_MPTT');
         $task->set("ptr", $ptr = 1);
         $task->set("stack", item::root()->id . "L1");
         $state = self::FIX_STATE_RUN_MPTT;
         break;
 
       case self::FIX_STATE_RUN_MPTT:
+        Kohana_Log::add('debug', 'FIX_STATE_RUN_MPTT');
         $ptr = $task->get("ptr");
         $stack = explode(" ", $task->get("stack"));
         preg_match("/([0-9]+)([A-Z])([0-9]+)/", array_pop($stack), $matches);  // e.g. "12345L10"
@@ -462,6 +466,7 @@ class gallery_task_Core {
 
 
       case self::FIX_STATE_START_DUPE_SLUGS:
+        Kohana_Log::add('debug', 'FIX_STATE_START_DUPE_SLUGS');
         $stack = array();
         foreach (self::find_dupe_slugs() as $row) {
           list ($parent_id, $slug) = explode(":", $row->parent_slug, 2);
@@ -476,6 +481,7 @@ class gallery_task_Core {
         break;
 
       case self::FIX_STATE_RUN_DUPE_SLUGS:
+        Kohana_Log::add('debug', 'FIX_STATE_RUN_DUPE_SLUGS');
         $stack = explode(" ", $task->get("stack"));
         list ($parent_id, $slug) = explode(":", array_pop($stack));
 
@@ -509,6 +515,7 @@ class gallery_task_Core {
         break;
 
       case self::FIX_STATE_START_DUPE_NAMES:
+        Kohana_Log::add('debug', 'FIX_STATE_START_DUPE_NAMES');
         $stack = array();
         foreach (self::find_dupe_names() as $row) {
           list ($parent_id, $name) = explode(":", $row->parent_name, 2);
@@ -523,6 +530,7 @@ class gallery_task_Core {
         break;
 
       case self::FIX_STATE_RUN_DUPE_NAMES:
+        Kohana_Log::add('debug', 'FIX_STATE_RUN_DUPE_NAMES');
         // NOTE: This does *not* attempt to fix the file system!
         $stack = explode(" ", $task->get("stack"));
         list ($parent_id, $name) = explode(":", array_pop($stack));
@@ -564,6 +572,8 @@ class gallery_task_Core {
         break;
 
       case self::FIX_STATE_START_DUPE_BASE_NAMES:
+        Kohana_Log::add('debug', 'FIX_STATE_START_DUPE_BASE_NAMES');
+
         $stack = array();
         foreach (self::find_dupe_base_names() as $row) {
           list ($parent_id, $base_name) = explode(":", $row->parent_base_name, 2);
@@ -578,6 +588,8 @@ class gallery_task_Core {
         break;
 
       case self::FIX_STATE_RUN_DUPE_BASE_NAMES:
+        Kohana_Log::add('debug', 'FIX_STATE_RUN_DUPE_BASE_NAMES');
+
         // NOTE: This *does* attempt to fix the file system!  So, it must go *after* run_dupe_names.
         $stack = explode(" ", $task->get("stack"));
         list ($parent_id, $base_name) = explode(":", array_pop($stack));
@@ -632,6 +644,8 @@ class gallery_task_Core {
         break;
 
       case self::FIX_STATE_START_ALBUMS:
+        Kohana_Log::add('debug', 'FIX_STATE_START_ALBUMS');
+
         $stack = array();
         foreach (db::build()
                  ->select("id")
@@ -645,6 +659,8 @@ class gallery_task_Core {
         break;
 
       case self::FIX_STATE_RUN_ALBUMS:
+        Kohana_Log::add('debug', 'FIX_STATE_RUN_ALBUMS');
+
         $stack = explode(" ", $task->get("stack"));
         $id = array_pop($stack);
 
@@ -676,6 +692,8 @@ class gallery_task_Core {
         break;
 
       case self::FIX_STATE_START_REBUILD_ITEM_CACHES:
+        Kohana_Log::add('debug', 'FIX_STATE_START_REBUILD_ITEM_CACHES');
+
         $stack = array();
         foreach (self::find_empty_item_caches(500) as $row) {
           $stack[] = $row->id;
@@ -685,6 +703,8 @@ class gallery_task_Core {
         break;
 
       case self::FIX_STATE_RUN_REBUILD_ITEM_CACHES:
+        Kohana_Log::add('debug', 'FIX_STATE_RUN_REBUILD_ITEM_CACHES');
+
         $stack = explode(" ", $task->get("stack"));
         if (!empty($stack)) {
           $id = array_pop($stack);
@@ -708,6 +728,8 @@ class gallery_task_Core {
         break;
 
       case self::FIX_STATE_START_MISSING_ACCESS_CACHES:
+        Kohana_Log::add('debug', 'FIX_STATE_START_MISSING_ACCESS_CACHES');
+
         $stack = array();
         foreach (self::find_missing_access_caches_limited(500) as $row) {
           $stack[] = $row->id;
@@ -717,6 +739,8 @@ class gallery_task_Core {
         break;
 
       case self::FIX_STATE_RUN_MISSING_ACCESS_CACHES:
+        Kohana_Log::add('debug', 'FIX_STATE_RUN_MISSING_ACCESS_CACHES');
+
         $stack = array_filter(explode(" ", $task->get("stack"))); // filter removes empty/zero ids
         if (!empty($stack)) {
           $id = array_pop($stack);
@@ -750,6 +774,8 @@ class gallery_task_Core {
     $task->set("completed", $completed);
 
     if ($state == self::FIX_STATE_DONE) {
+      Kohana_Log::add('debug', 'FIX_STATE_DONE');
+
       $task->done = true;
       $task->state = "success";
       $task->percent_complete = 100;
