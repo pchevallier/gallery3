@@ -32,7 +32,7 @@ CREATE TABLE {access_intents} (
   PRIMARY KEY (`id`)
 ) AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-INSERT INTO {access_intents} VALUES (1,1,'1','1','0','0','1','1','0','0');
+INSERT INTO {access_intents} VALUES (1,1,'0','0','0','0','1','1','0','0');
 DROP TABLE IF EXISTS {caches};
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
